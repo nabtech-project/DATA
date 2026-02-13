@@ -3,10 +3,31 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>My Free Project</title>
+    <title>My Free Cloud Project | Contact & Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="data.ico">
-    <meta name="google-site-verification" content="9JU5ZMKLjKy5gJs8IQlFIyGTn4hCpMneUVu908yQbNY" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="My Free Cloud Project – Frontend & Backend example. Contact form, admin login, and API integration hosted for free. Perfect for learning full-stack deployment.">
+    <meta name="keywords"
+        content="Free Project, Cloud Project, Render, Netlify, Frontend, Backend, Contact Form, Admin Dashboard, Full Stack, JavaScript, Node.js, Express, HTML, CSS">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="My Free Cloud Project | Contact & Admin Dashboard">
+    <meta property="og:description"
+        content="Contact form, admin login, and free full-stack project example hosted on Render & Netlify.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://affan-data1.netlify.app">
+    <meta property="og:image" content="https://affan-data1.netlify.app/data.ico">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="My Free Cloud Project | Contact & Admin Dashboard">
+    <meta name="twitter:description"
+        content="Contact form, admin login, and free full-stack project example hosted on Render & Netlify.">
+    <meta name="twitter:image" content="https://affan-data1.netlify.app/data.ico">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -23,20 +44,30 @@
         }
 
         body {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            padding: 40px 10px;
             background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+            justify-content: center;
         }
 
         .card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
+            width: 100%;
+            max-width: 350px;
             text-align: center;
             color: white;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -45,6 +76,10 @@
         h1 {
             margin-bottom: 20px;
             font-weight: 600;
+        }
+
+        h2 {
+            margin-bottom: 15px;
         }
 
         button {
@@ -65,22 +100,6 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        #result {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: left;
-            font-size: 14px;
-            min-height: 80px;
-            overflow-x: auto;
-        }
-
-        .footer {
-            margin-top: 20px;
-            font-size: 13px;
-            opacity: 0.8;
-        }
-
         input,
         textarea {
             width: 100%;
@@ -99,54 +118,78 @@
             width: 100%;
             margin-top: 10px;
         }
+
+        #result,
+        #contactResult,
+        #adminResult,
+        #messagesList {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 14px;
+            min-height: 80px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 1100px) {
+            .card {
+                max-width: 90%;
+            }
+        }
     </style>
 </head>
 
 <body>
-
-    <div class="card">
-        <h1><i class="fas fa-cloud"></i> My Cloud Project</h1>
-
-        <button onclick="loadData()">
-            <i class="fas fa-download"></i> Load Data
-        </button>
-
-        <pre id="result"><i class="fas fa-info-circle"></i> Click the button to fetch data...</pre>
-
-        <div class="footer">
-            <i class="fas fa-server"></i> Connected to Render Backend
+    <div class="container">
+        <!-- Left: Load Data -->
+        <div class="card">
+            <h1><i class="fas fa-cloud"></i> My Cloud Project</h1>
+            <button onclick="loadData()">
+                <i class="fas fa-download"></i> Load Data
+            </button>
+            <pre id="result"><i class="fas fa-info-circle"></i> Click the button to fetch data...</pre>
+            <div class="footer">
+                <i class="fas fa-server"></i> Connected to Render Backend
+            </div>
         </div>
-    </div>
 
-    <div class="card">
-        <h1><i class="fas fa-cloud"></i> My Cloud Project</h1>
+        <!-- Center: Contact Form -->
+        <div class="card">
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="message" placeholder="Message" required></textarea>
+                <button type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
+            </form>
+            <div id="contactResult"></div>
+        </div>
 
-        <!-- Contact Form -->
-        <h2>Contact Us</h2>
-        <form id="contactForm">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <textarea name="message" placeholder="Message" required></textarea>
-            <button type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
-        </form>
-        <div id="contactResult"></div>
-
-        <!-- Admin Login -->
-        <h2>Admin Login</h2>
-        <form id="adminForm">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit"><i class="fas fa-lock"></i> Login</button>
-        </form>
-        <div id="adminResult"></div>
-        <div id="messagesList"></div>
+        <!-- Right: Admin Login -->
+        <div class="card">
+            <h2>Admin Login</h2>
+            <form id="adminForm">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit"><i class="fas fa-lock"></i> Login</button>
+            </form>
+            <div id="adminResult"></div>
+            <div id="messagesList"></div>
+        </div>
     </div>
 
     <script>
         async function loadData() {
             const result = document.getElementById("result");
             result.innerHTML = "⏳ Loading...";
-
             try {
                 const response = await fetch("https://data-1-uy29.onrender.com/api/data");
                 const data = await response.json();
@@ -156,7 +199,7 @@
             }
         }
 
-        // Contact form submission
+        // Contact form
         document.getElementById("contactForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const form = e.target;
@@ -199,7 +242,6 @@
                 const json = await res.json();
                 if (json.status === "success") {
                     result.innerText = "✅ Logged in. Fetching messages...";
-                    // Fetch messages
                     const msgRes = await fetch("https://data-1-uy29.onrender.com/api/admin/messages", {
                         headers: { "Authorization": json.token }
                     });
@@ -214,7 +256,6 @@
             }
         });
     </script>
-
 </body>
 
 </html>
