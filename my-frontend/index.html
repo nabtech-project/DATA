@@ -78,6 +78,25 @@
             font-size: 13px;
             opacity: 0.8;
         }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        form button {
+            width: 100%;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -97,6 +116,30 @@
         </div>
     </div>
 
+    <div class="card">
+        <h1><i class="fas fa-cloud"></i> My Cloud Project</h1>
+
+        <!-- Contact Form -->
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <textarea name="message" placeholder="Message" required></textarea>
+            <button type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </form>
+        <div id="contactResult"></div>
+
+        <!-- Admin Login -->
+        <h2>Admin Login</h2>
+        <form id="adminForm">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit"><i class="fas fa-lock"></i> Login</button>
+        </form>
+        <div id="adminResult"></div>
+        <div id="messagesList"></div>
+    </div>
+
     <script>
         async function loadData() {
             const result = document.getElementById("result");
@@ -110,6 +153,64 @@
                 result.innerText = "❌ Error connecting to server.";
             }
         }
+
+        // Contact form submission
+        document.getElementById("contactForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                name: form.name.value,
+                email: form.email.value,
+                message: form.message.value
+            };
+            const result = document.getElementById("contactResult");
+            try {
+                const res = await fetch("https://data-1-uy29.onrender.com/api/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const json = await res.json();
+                result.innerText = json.message;
+                form.reset();
+            } catch (err) {
+                result.innerText = "❌ Failed to send message.";
+            }
+        });
+
+        // Admin login
+        document.getElementById("adminForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                username: form.username.value,
+                password: form.password.value
+            };
+            const result = document.getElementById("adminResult");
+            const messagesDiv = document.getElementById("messagesList");
+            try {
+                const res = await fetch("https://data-1-uy29.onrender.com/api/admin/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const json = await res.json();
+                if (json.status === "success") {
+                    result.innerText = "✅ Logged in. Fetching messages...";
+                    // Fetch messages
+                    const msgRes = await fetch("https://data-1-uy29.onrender.com/api/admin/messages", {
+                        headers: { "Authorization": json.token }
+                    });
+                    const messages = await msgRes.json();
+                    messagesDiv.innerHTML = "<h3>Messages:</h3>" +
+                        messages.map(m => `<div><b>${m.name}</b> (${m.email})<br>${m.message}</div><hr>`).join("");
+                } else {
+                    result.innerText = "❌ Invalid credentials";
+                }
+            } catch (err) {
+                result.innerText = "❌ Login failed";
+            }
+        });
     </script>
 
 </body>
