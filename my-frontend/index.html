@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Free Project</title>
+</head>
+
+<body>
+    <h1>Frontend</h1>
+    <button onclick="loadData()">Load Data</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function loadData() {
+            const response = await fetch("https://data-1-uy29.onrender.com/api/data");
+            const data = await response.json();
+            document.getElementById("result").innerText =
+                JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+
+</html>
